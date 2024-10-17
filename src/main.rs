@@ -1,4 +1,9 @@
-use lambda_extension::{service_fn, Error, LambdaEvent, NextEvent};
+mod config;
+
+use config::Config;
+use lambda_extension::{service_fn, tracing::debug, Error, LambdaEvent, NextEvent};
+use std::env;
+use tokio::process::Command;
 use tracing_subscriber::{filter::LevelFilter, EnvFilter};
 
 async fn my_extension(event: LambdaEvent) -> Result<(), Error> {
@@ -23,6 +28,22 @@ async fn main() -> Result<(), Error> {
     )
     .without_time()
     .init();
+
+  let path = env::var("AWS_LAMBDA_SIDECAR_MANAGER_CONFIG")
+    .unwrap_or_else(|_| "aws-lambda-sidecar.yaml".into());
+  debug!("AWS_LAMBDA_SIDECAR_MANAGER_CONFIG={}", path);
+
+  let config = Config::from_yaml(&path).await.unwrap();
+  debug!("config={:?}", config);
+
+  for target in config.targets {
+    debug!("starting target: {:?}", target);
+    Command::new(target.shell.as_deref().unwrap_or("sh"))
+      .arg("-c")
+      .arg(&target.command)
+      .spawn()
+      .unwrap_or_else(|_| panic!("failed to start target: {:?}", target));
+  }
 
   let func = service_fn(my_extension);
   lambda_extension::run(func).await
