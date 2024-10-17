@@ -29,8 +29,12 @@ async fn main() -> Result<(), Error> {
     .without_time()
     .init();
 
-  let path = env::var("AWS_LAMBDA_SIDECAR_MANAGER_CONFIG")
-    .unwrap_or_else(|_| "aws-lambda-sidecar.yaml".into());
+  let path = env::var("AWS_LAMBDA_SIDECAR_MANAGER_CONFIG").unwrap_or_else(|_| {
+    format!(
+      "{}/aws-lambda-sidecar.yaml",
+      env::var("LAMBDA_TASK_ROOT").unwrap()
+    )
+  });
   debug!("AWS_LAMBDA_SIDECAR_MANAGER_CONFIG={}", path);
 
   let config = Config::from_yaml(&path).await.unwrap();
