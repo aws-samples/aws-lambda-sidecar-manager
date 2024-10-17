@@ -61,7 +61,13 @@ async fn main() -> Result<(), Error> {
         let client = reqwest::Client::new();
         let status = http.status.unwrap_or(200);
 
-        let method = match http.method.as_deref().unwrap_or("get") {
+        let method = match http
+          .method
+          .as_ref()
+          .map(|s| s.to_uppercase())
+          .as_deref()
+          .unwrap_or("GET")
+        {
           "GET" => Method::GET,
           "POST" => Method::POST,
           "PUT" => Method::PUT,
