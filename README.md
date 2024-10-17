@@ -26,6 +26,6 @@ targets:
 
 - `AWS_LAMBDA_SIDECAR_MANAGER_CONFIG`
   - The path to the configuration file.
-  - Default: `${LAMBDA_TASK_ROOT}/aws-lambda-sidecar.yaml`, which is in your function code directory.
+  - Default: `/var/task/aws-lambda-sidecar.yaml`, which is usually in your function code directory.
 
 ## [CHANGELOG](./CHANGELOG.md)
