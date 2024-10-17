@@ -1,2 +1,6 @@
 targets:
   - command: env LAMBDA_FUNCTION_NAME=SidecarManagerExampleWebGatewayCallee /opt/lambda-web-gateway
+
+readiness:
+  - http:
+      url: http://localhost:8000/healthz
