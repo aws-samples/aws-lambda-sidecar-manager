@@ -13,6 +13,7 @@ Resources:
       CodeUri: caller
       Handler: index.handler
       Runtime: nodejs20.x
+      MemorySize: 2048
       Layers:
         - !Ref SidecarManagerLayer
       Policies:
@@ -20,7 +21,7 @@ Resources:
           FunctionName: !Ref CalleeFunction
       Environment:
         Variables:
-          RUST_LOG: info,aws_lambda_sidecar_manager=debug
+          RUST_LOG: info,aws_lambda_sidecar_manager=debug,lambda_web_gateway=error
 
   CalleeFunction:
     Type: AWS::Serverless::Function
