@@ -20,6 +20,20 @@ An AWS Lambda layer to run any sidecar process in the same sandbox as the handle
 targets:
   - command: echo 123 # any shell command
     shell: bash # optional. default: sh
+
+readiness: # optional
+  # poll until a URL returns a status code
+  - http:
+      url: http://localhost:8080/ready
+      method: GET # optional. default: GET
+      status: 200 # optional. default: 200
+    interval: 10 # in ms, optional. default: 1
+  # poll until a command returns 0
+  - exec:
+      command: echo ready
+      shell: bash # optional. default: sh
+      status: 0 # optional. default: 0
+    interval: 10
 ```
 
 ### Environment Variables

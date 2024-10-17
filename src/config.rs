@@ -8,8 +8,30 @@ pub struct Target {
 }
 
 #[derive(Debug, PartialEq, Deserialize)]
+pub struct HttpReadiness {
+  pub url: String,
+  pub method: Option<String>,
+  pub status: Option<u16>,
+}
+
+#[derive(Debug, PartialEq, Deserialize)]
+pub struct ExecReadiness {
+  pub command: String,
+  pub shell: Option<String>,
+  pub status: Option<i32>,
+}
+
+#[derive(Debug, PartialEq, Deserialize)]
+pub struct Readiness {
+  pub http: Option<HttpReadiness>,
+  pub exec: Option<ExecReadiness>,
+  pub interval: Option<u64>,
+}
+
+#[derive(Debug, PartialEq, Deserialize)]
 pub struct Config {
   pub targets: Vec<Target>,
+  pub readiness: Option<Vec<Readiness>>,
 }
 
 impl Config {
