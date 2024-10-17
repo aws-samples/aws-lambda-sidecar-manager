@@ -1,4 +1,5 @@
-use lambda_extension::{service_fn, tracing, Error, LambdaEvent, NextEvent};
+use lambda_extension::{service_fn, Error, LambdaEvent, NextEvent};
+use tracing_subscriber::{filter::LevelFilter, EnvFilter};
 
 async fn my_extension(event: LambdaEvent) -> Result<(), Error> {
   match event.next {
@@ -15,7 +16,11 @@ async fn my_extension(event: LambdaEvent) -> Result<(), Error> {
 #[tokio::main]
 async fn main() -> Result<(), Error> {
   tracing_subscriber::fmt()
-    .with_max_level(tracing::Level::INFO)
+    .with_env_filter(
+      EnvFilter::builder()
+        .with_default_directive(LevelFilter::INFO.into())
+        .from_env_lossy(),
+    )
     .without_time()
     .init();
 
