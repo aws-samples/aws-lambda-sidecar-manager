@@ -1,6 +1,9 @@
 # AWS Lambda Web Gateway
 
-This example shows how this can work with [AWS Lambda Web Gateway](https://github.com/aws-samples/aws-lambda-web-gateway).
+This example shows how this can work with [AWS Lambda Web Gateway](https://github.com/aws-samples/aws-lambda-web-gateway) to call other AWS Lambda functions from an AWS Lambda function.
+
+> [!IMPORTANT]
+> Calling other AWS Lambda functions from an AWS Lambda function is an **_anti pattern_** and is not recommended in production. This is just an example to show how this can work.
 
 ## Build
 

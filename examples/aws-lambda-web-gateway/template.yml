@@ -13,7 +13,7 @@ Resources:
       CodeUri: caller
       Handler: index.handler
       Runtime: nodejs20.x
-      MemorySize: 2048
+      MemorySize: 1024
       Layers:
         - !Ref SidecarManagerLayer
       Policies:
