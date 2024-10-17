@@ -1,0 +1,4 @@
+targets:
+  - command: echo 111
+  - command: echo 222
+    shell: bash
