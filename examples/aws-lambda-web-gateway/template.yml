@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  SidecarManagerLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: ./layer
+
+  CallerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: caller
+      Handler: index.handler
+      Runtime: nodejs20.x
+      Layers:
+        - !Ref SidecarManagerLayer
+      Policies:
+        LambdaInvokePolicy:
+          FunctionName: !Ref CalleeFunction
+      Environment:
+        Variables:
+          RUST_LOG: info,aws_lambda_sidecar_manager=debug
+
+  CalleeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SidecarManagerExampleWebGatewayCallee
+      CodeUri: callee
+      Handler: index.handler
+      Runtime: nodejs20.x
