@@ -13,5 +13,8 @@ Resources:
       CodeUri: nodejs
       Handler: index.handler
       Runtime: nodejs20.x
+      Environment:
+        Variables:
+          RUST_LOG: info,aws_lambda_sidecar_manager=debug
       Layers:
         - !Ref SidecarManagerLayer
