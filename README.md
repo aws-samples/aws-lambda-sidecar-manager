@@ -43,3 +43,11 @@ readiness: # optional
   - Default: `/var/task/aws-lambda-sidecar.yaml`, which is usually in your function code directory.
 
 ## [CHANGELOG](./CHANGELOG.md)
+
+## Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## License
+
+This library is licensed under the MIT-0 License. See the LICENSE file.
